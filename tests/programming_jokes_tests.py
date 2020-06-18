@@ -4,6 +4,7 @@ from jsonschema import validate
 from unittest import TestCase
 from libs.joke_api import JokeAPI
 from libs.joke_api import ProgrammingJokesSchema
+from utils.custom_logger import CustomLogger
 
 
 class ProgrammingJokesTests(TestCase):
@@ -14,8 +15,8 @@ class ProgrammingJokesTests(TestCase):
     @classmethod
     def setUpClass(cls):
         cls.jokes_api = JokeAPI()
-        #logging.basicConfig(level=logging.DEBUG)
-
+        cls.log = CustomLogger()
+        
     def test_get_random_programing_jokes(self):
         """
         Test 1 - Validate GET /jokes/programming/random API
@@ -25,7 +26,7 @@ class ProgrammingJokesTests(TestCase):
         resp = self.jokes_api.get_programing_jokes_random()
         self.assertEqual(200, resp.status_code, msg='response code not match')
         obj = resp.json()
-        logging.debug('{0}'.format(obj))
+        logging.debug('Response {0}'.format(obj))
         self.assertEqual('programming', obj[0]['type'], msg='Type not valid')
         validate(obj, schema=ProgrammingJokesSchema.programming_jokes_response)
 
@@ -40,6 +41,7 @@ class ProgrammingJokesTests(TestCase):
         resp = self.jokes_api.get_programing_jokes_ten()
         self.assertEqual(200, resp.status_code, msg='status code not match')
         obj = resp.json()
+        logging.debug('Response {0}'.format(obj))
         logging.debug('Validate that 10 jokes are returned')
         self.assertEqual(10, len(obj), msg='list count does not match to 10')
         validate(obj, schema=ProgrammingJokesSchema.programming_jokes_response)
@@ -56,6 +58,7 @@ class ProgrammingJokesTests(TestCase):
         resp = self.jokes_api.get_random_jokes()
         self.assertEqual(200, resp.status_code, msg='response code not match')
         obj = resp.json()
+        logging.debug('Response {0}'.format(obj))
         self.assertIn(obj['type'], ['general', 'programming'])
 
     def test_get_general_ten_jokes(self):
@@ -67,4 +70,5 @@ class ProgrammingJokesTests(TestCase):
         resp = self.jokes_api.get_ten_jokes()
         self.assertEqual(200, resp.status_code, msg='response code not match')
         obj = resp.json()
+        logging.debug('Response {0}'.format(obj))
         validate(obj, schema=ProgrammingJokesSchema.programming_jokes_response)
