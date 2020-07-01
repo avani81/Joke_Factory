@@ -1,4 +1,4 @@
-This project includes test Libraries and tests for Joke Factory APIs
+This project includes test libraries and tests for Joke Factory APIs
 
 Tests include following endpoints validation ( functional tests only)
 Using https://official-joke-api.appspot.com/jokes/programming/random
